@@ -1,0 +1,62 @@
+# Create .gitignore in your project root
+cat > .gitignore << 'EOF'
+# ROS Build Files
+build/
+devel/
+install/
+.catkin_tools/
+
+# Compiled Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+*.o
+
+# Catkin/CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+CTestTestfile.cmake
+
+# Backup and generated setup files
+*.swp
+*.swo
+*~
+.#*
+*.bak
+*.tmp
+local_setup.*
+setup.bash
+setup.sh
+setup.zsh
+setup.fish
+env.sh
+_setup_util.py
+.rosinstall
+.built_by
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+*.sublime-*
+
+# Logs
+*.log
+logs/
+
+# ROS test results
+test_results/
+
+# OS files
+.DS_Store
+Thumbs.db
+EOF

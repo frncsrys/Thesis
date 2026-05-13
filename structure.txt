@@ -1,0 +1,360 @@
+.
+├── build
+│   ├── atomic_configure
+│   │   ├── astar_planner.py.0qUiR
+│   │   ├── astar_planner.py.E2ta9
+│   │   ├── astar_planner.py.JqsJe
+│   │   ├── astar_planner.py.nWLEX
+│   │   ├── astar_planner.py.t8Lon
+│   │   ├── astar_planner.py.wbp0I
+│   │   ├── astar_planner.py.WnUHK
+│   │   ├── astar_planner.py.yaWKl
+│   │   ├── astar_planner.py.zeptl
+│   │   ├── env.sh.2OKTk
+│   │   ├── env.sh.6as8C
+│   │   ├── env.sh.cV4k6
+│   │   ├── env.sh.CYZ4k
+│   │   ├── env.sh.jgiPF
+│   │   ├── env.sh.L8Cdn
+│   │   ├── env.sh.M5kWq
+│   │   ├── env.sh.u8yMn
+│   │   ├── env.sh.wEEjR
+│   │   ├── local_setup.bash.84xit
+│   │   ├── local_setup.bash.BHVEo
+│   │   ├── local_setup.bash.bIQo4
+│   │   ├── local_setup.bash.F9GA3
+│   │   ├── local_setup.bash.gNY09
+│   │   ├── local_setup.bash.ht1CA
+│   │   ├── local_setup.bash.KP6y8
+│   │   ├── local_setup.bash.lIjS3
+│   │   ├── local_setup.bash.ppjDn
+│   │   ├── local_setup.fish.K3FF9
+│   │   ├── local_setup.fish.LfB8M
+│   │   ├── local_setup.fish.lGJpQ
+│   │   ├── local_setup.fish.oc9n7
+│   │   ├── local_setup.fish.rROOx
+│   │   ├── local_setup.fish.rYfRG
+│   │   ├── local_setup.fish.uMNCm
+│   │   ├── local_setup.fish.WPpVJ
+│   │   ├── local_setup.fish.ZMgYl
+│   │   ├── local_setup.sh.e0Max
+│   │   ├── local_setup.sh.GMjEt
+│   │   ├── local_setup.sh.h09wN
+│   │   ├── local_setup.sh.hvrzt
+│   │   ├── local_setup.sh.mRDi6
+│   │   ├── local_setup.sh.PbCho
+│   │   ├── local_setup.sh.PbglC
+│   │   ├── local_setup.sh.qHLi7
+│   │   ├── local_setup.sh.yBtQJ
+│   │   ├── local_setup.zsh.5DBrs
+│   │   ├── local_setup.zsh.ay7h4
+│   │   ├── local_setup.zsh.dKG6D
+│   │   ├── local_setup.zsh.iKnlJ
+│   │   ├── local_setup.zsh.KrCDx
+│   │   ├── local_setup.zsh.RLGg4
+│   │   ├── local_setup.zsh.rOECr
+│   │   ├── local_setup.zsh.u0ZPi
+│   │   ├── local_setup.zsh.wF9lt
+│   │   ├── obstacle_stop.py.0L1lR
+│   │   ├── obstacle_stop.py.ACyhq
+│   │   ├── obstacle_stop.py.D3YbY
+│   │   ├── obstacle_stop.py.hLMf8
+│   │   ├── obstacle_stop.py.J5mtg
+│   │   ├── obstacle_stop.py.K0xKp
+│   │   ├── obstacle_stop.py.tgV2l
+│   │   ├── obstacle_stop.py.ZxuE4
+│   │   ├── obstacle_stop.py.zZs8J
+│   │   ├── perception_node.py.CISG4
+│   │   ├── pose_simulator.py.aftx9
+│   │   ├── pure_pursuit.py.AIaUR
+│   │   ├── pure_pursuit.py.kWEfj
+│   │   ├── pure_pursuit.py.lCjOX
+│   │   ├── pure_pursuit.py.mv4kv
+│   │   ├── pure_pursuit.py.n7ENL
+│   │   ├── pure_pursuit.py.qNYla
+│   │   ├── pure_pursuit.py.RXGsW
+│   │   ├── pure_pursuit.py.V3FMK
+│   │   ├── pure_pursuit.py.wS6Gl
+│   │   ├── setup.bash.iRCzH
+│   │   ├── setup.bash.J9Chr
+│   │   ├── setup.bash.nqSuI
+│   │   ├── setup.bash.RnoiN
+│   │   ├── setup.bash.UewG4
+│   │   ├── setup.bash.uNmdn
+│   │   ├── setup.bash.VhWhB
+│   │   ├── setup.bash.xkYut
+│   │   ├── setup.bash.zxG8R
+│   │   ├── setup.fish.6h7Ag
+│   │   ├── setup.fish.9m3nD
+│   │   ├── setup.fish.a9H5h
+│   │   ├── setup.fish.dypgX
+│   │   ├── setup.fish.eLzs0
+│   │   ├── setup.fish.K6Ddr
+│   │   ├── setup.fish.QEseO
+│   │   ├── setup.fish.vvnoJ
+│   │   ├── setup.fish.XOzsN
+│   │   ├── setup.sh.ETaaI
+│   │   ├── setup.sh.fKLWx
+│   │   ├── setup.sh.g257y
+│   │   ├── setup.sh.Mdot7
+│   │   ├── setup.sh.np5MM
+│   │   ├── setup.sh.OdJiA
+│   │   ├── setup.sh.QyYte
+│   │   ├── setup.sh.Tgncp
+│   │   ├── setup.sh.WNtOQ
+│   │   ├── _setup_util.py.4NWia
+│   │   ├── _setup_util.py.6bB29
+│   │   ├── _setup_util.py.g1UEj
+│   │   ├── _setup_util.py.hR2W4
+│   │   ├── _setup_util.py.MHg6Q
+│   │   ├── _setup_util.py.P8va8
+│   │   ├── _setup_util.py.QRfuF
+│   │   ├── _setup_util.py.wRYtJ
+│   │   ├── _setup_util.py.ysVpS
+│   │   ├── setup.zsh.3uLK8
+│   │   ├── setup.zsh.fU2qH
+│   │   ├── setup.zsh.hpQXg
+│   │   ├── setup.zsh.mK66p
+│   │   ├── setup.zsh.oElcP
+│   │   ├── setup.zsh.va6Nk
+│   │   ├── setup.zsh.W3eNt
+│   │   ├── setup.zsh.W6DJ3
+│   │   ├── setup.zsh.yOh89
+│   │   ├── waypoint_manager.py.0yEEk
+│   │   ├── waypoint_manager.py.4eegg
+│   │   ├── waypoint_manager.py.7lXpx
+│   │   ├── waypoint_manager.py.9lLzR
+│   │   ├── waypoint_manager.py.fHqb4
+│   │   ├── waypoint_manager.py.mJPzy
+│   │   ├── waypoint_manager.py.N56CY
+│   │   ├── waypoint_manager.py.yggXa
+│   │   └── waypoint_manager.py.ZAxiL
+│   ├── bin
+│   ├── catkin
+│   │   └── catkin_generated
+│   │       └── version
+│   │           └── package.cmake
+│   ├── catkin_generated
+│   │   ├── env_cached.sh
+│   │   ├── generate_cached_setup.py
+│   │   ├── installspace
+│   │   │   ├── env.sh
+│   │   │   ├── local_setup.bash
+│   │   │   ├── local_setup.fish
+│   │   │   ├── local_setup.sh
+│   │   │   ├── local_setup.zsh
+│   │   │   ├── setup.bash
+│   │   │   ├── setup.fish
+│   │   │   ├── setup.sh
+│   │   │   ├── _setup_util.py
+│   │   │   └── setup.zsh
+│   │   ├── order_packages.cmake
+│   │   ├── order_packages.py
+│   │   ├── setup_cached.sh
+│   │   └── stamps
+│   │       └── Project
+│   │           ├── interrogate_setup_dot_py.py.stamp
+│   │           ├── order_packages.cmake.em.stamp
+│   │           ├── package.xml.stamp
+│   │           └── _setup_util.py.stamp
+│   ├── CATKIN_IGNORE
+│   ├── catkin_make.cache
+│   ├── CMakeCache.txt
+│   ├── CMakeFiles
+│   │   ├── 3.16.3
+│   │   │   ├── CMakeCCompiler.cmake
+│   │   │   ├── CMakeCXXCompiler.cmake
+│   │   │   ├── CMakeDetermineCompilerABI_C.bin
+│   │   │   ├── CMakeDetermineCompilerABI_CXX.bin
+│   │   │   ├── CMakeSystem.cmake
+│   │   │   ├── CompilerIdC
+│   │   │   │   ├── a.out
+│   │   │   │   ├── CMakeCCompilerId.c
+│   │   │   │   └── tmp
+│   │   │   └── CompilerIdCXX
+│   │   │       ├── a.out
+│   │   │       ├── CMakeCXXCompilerId.cpp
+│   │   │       └── tmp
+│   │   ├── clean_test_results.dir
+│   │   │   ├── build.make
+│   │   │   ├── cmake_clean.cmake
+│   │   │   ├── DependInfo.cmake
+│   │   │   └── progress.make
+│   │   ├── cmake.check_cache
+│   │   ├── CMakeDirectoryInformation.cmake
+│   │   ├── CMakeError.log
+│   │   ├── CMakeOutput.log
+│   │   ├── CMakeRuleHashes.txt
+│   │   ├── CMakeTmp
+│   │   ├── download_extra_data.dir
+│   │   │   ├── build.make
+│   │   │   ├── cmake_clean.cmake
+│   │   │   ├── DependInfo.cmake
+│   │   │   └── progress.make
+│   │   ├── doxygen.dir
+│   │   │   ├── build.make
+│   │   │   ├── cmake_clean.cmake
+│   │   │   ├── DependInfo.cmake
+│   │   │   └── progress.make
+│   │   ├── Makefile2
+│   │   ├── Makefile.cmake
+│   │   ├── progress.marks
+│   │   ├── run_tests.dir
+│   │   │   ├── build.make
+│   │   │   ├── cmake_clean.cmake
+│   │   │   ├── DependInfo.cmake
+│   │   │   └── progress.make
+│   │   ├── TargetDirectories.txt
+│   │   └── tests.dir
+│   │       ├── build.make
+│   │       ├── cmake_clean.cmake
+│   │       ├── DependInfo.cmake
+│   │       └── progress.make
+│   ├── cmake_install.cmake
+│   ├── CTestConfiguration.ini
+│   ├── CTestCustom.cmake
+│   ├── CTestTestfile.cmake
+│   ├── gtest
+│   │   ├── CMakeFiles
+│   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   └── progress.marks
+│   │   ├── cmake_install.cmake
+│   │   ├── CTestTestfile.cmake
+│   │   ├── googlemock
+│   │   │   ├── CMakeFiles
+│   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   │   ├── gmock.dir
+│   │   │   │   │   ├── build.make
+│   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   ├── depend.make
+│   │   │   │   │   ├── flags.make
+│   │   │   │   │   ├── link.txt
+│   │   │   │   │   ├── progress.make
+│   │   │   │   │   └── src
+│   │   │   │   ├── gmock_main.dir
+│   │   │   │   │   ├── build.make
+│   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   ├── depend.make
+│   │   │   │   │   ├── flags.make
+│   │   │   │   │   ├── link.txt
+│   │   │   │   │   ├── progress.make
+│   │   │   │   │   └── src
+│   │   │   │   └── progress.marks
+│   │   │   ├── cmake_install.cmake
+│   │   │   ├── CTestTestfile.cmake
+│   │   │   └── Makefile
+│   │   ├── googletest
+│   │   │   ├── CMakeFiles
+│   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   │   ├── gtest.dir
+│   │   │   │   │   ├── build.make
+│   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   ├── depend.make
+│   │   │   │   │   ├── flags.make
+│   │   │   │   │   ├── link.txt
+│   │   │   │   │   ├── progress.make
+│   │   │   │   │   └── src
+│   │   │   │   ├── gtest_main.dir
+│   │   │   │   │   ├── build.make
+│   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   ├── depend.make
+│   │   │   │   │   ├── flags.make
+│   │   │   │   │   ├── link.txt
+│   │   │   │   │   ├── progress.make
+│   │   │   │   │   └── src
+│   │   │   │   └── progress.marks
+│   │   │   ├── cmake_install.cmake
+│   │   │   ├── CTestTestfile.cmake
+│   │   │   └── Makefile
+│   │   ├── lib
+│   │   └── Makefile
+│   ├── Makefile
+│   ├── simple_nav
+│   │   ├── catkin_generated
+│   │   │   ├── installspace
+│   │   │   │   ├── astar_planner.py
+│   │   │   │   ├── obstacle_stop.py
+│   │   │   │   ├── perception_node.py
+│   │   │   │   ├── pose_simulator.py
+│   │   │   │   ├── pure_pursuit.py
+│   │   │   │   ├── simple_navConfig.cmake
+│   │   │   │   ├── simple_navConfig-version.cmake
+│   │   │   │   ├── simple_nav.pc
+│   │   │   │   └── waypoint_manager.py
+│   │   │   ├── package.cmake
+│   │   │   ├── pkg.develspace.context.pc.py
+│   │   │   ├── pkg.installspace.context.pc.py
+│   │   │   └── stamps
+│   │   │       └── simple_nav
+│   │   │           ├── astar_planner.py.stamp
+│   │   │           ├── obstacle_stop.py.stamp
+│   │   │           ├── package.xml.stamp
+│   │   │           ├── perception_node.py.stamp
+│   │   │           ├── pkg.pc.em.stamp
+│   │   │           ├── pose_simulator.py.stamp
+│   │   │           ├── pure_pursuit.py.stamp
+│   │   │           └── waypoint_manager.py.stamp
+│   │   ├── CMakeFiles
+│   │   │   ├── _catkin_empty_exported_target.dir
+│   │   │   │   ├── build.make
+│   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   ├── DependInfo.cmake
+│   │   │   │   └── progress.make
+│   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   └── progress.marks
+│   │   ├── cmake_install.cmake
+│   │   ├── CTestTestfile.cmake
+│   │   └── Makefile
+│   └── test_results
+├── devel
+│   ├── env.sh
+│   ├── lib
+│   │   ├── pkgconfig
+│   │   │   └── simple_nav.pc
+│   │   └── simple_nav
+│   │       ├── astar_planner.py
+│   │       ├── obstacle_stop.py
+│   │       ├── perception_node.py
+│   │       ├── pose_simulator.py
+│   │       ├── pure_pursuit.py
+│   │       └── waypoint_manager.py
+│   ├── local_setup.bash
+│   ├── local_setup.fish
+│   ├── local_setup.sh
+│   ├── local_setup.zsh
+│   ├── setup.bash
+│   ├── setup.fish
+│   ├── setup.sh
+│   ├── _setup_util.py
+│   ├── setup.zsh
+│   └── share
+│       └── simple_nav
+│           └── cmake
+│               ├── simple_navConfig.cmake
+│               └── simple_navConfig-version.cmake
+├── frames.gv
+├── frames.pdf
+├── src
+│   ├── CMakeLists.txt -> /opt/ros/noetic/share/catkin/cmake/toplevel.cmake
+│   ├── detection
+│   │   └── AV-Robots-Distance_Detection-Mandap
+│   │       ├── best_ncnn_model
+│   │       │   ├── metadata.yaml
+│   │       │   ├── model.ncnn.bin
+│   │       │   ├── model.ncnn.param
+│   │       │   ├── model_ncnn.py
+│   │       │   └── __pycache__
+│   │       │       └── model_pnnx.cpython-313.pyc
+│   │       ├── calibration_params.npz
+│   │       ├── get_degree.py
+│   │       ├── requirements.txt
+│   │       └── stream.py
+│   ├── ORB_SLAM3 -> /home/rfran/dev/ORB_SLAM3/Examples/ROS/ORB_SLAM3
+│   └── simple_nav -> /home/rfran/dev/ORB_SLAM3/Examples/ROS/simple_nav
+└── structure.txt
+
+59 directories, 298 files
