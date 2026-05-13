@@ -1,0 +1,157 @@
+<launch>
+
+
+ <!-- ═══════════════════════════════════════════════════
+      1. PHONE CAMERA STREAM
+ ════════════════════════════════════════════════════ -->
+ <include file="$(find video_stream_opencv)/launch/camera.launch">
+   <arg name="camera_name"          value="phone_cam"/>
+   <arg name="video_stream_provider" value="http://100.109.163.97:8080/video?type=.mjpg"/>
+   <arg name="fps"                  value="30"/>
+   <arg name="width"                value="640"/>
+   <arg name="height"               value="480"/>
+ </include>
+
+
+ <!-- ═══════════════════════════════════════════════════
+      2. ORB-SLAM3 MONOCULAR NODE
+ ════════════════════════════════════════════════════ -->
+ <node name="orb_slam3_mono"
+       pkg="ORB_SLAM3" type="Mono"
+       args="/home/rfran/dev/ORB_SLAM3/Vocabulary/ORBvoc.txt
+             /home/rfran/dev/ORB_SLAM3/Examples/Monocular/TUM1.yaml"
+       output="screen">
+   <remap from="/camera/image_raw" to="/phone_cam/image_raw"/>
+
+
+   <param name="map_scale" value="50.0"/>
+   <param name="clip_min"  value="-0.3"/>
+   <param name="clip_max"  value="0.3"/>
+   <param name="map_path"  value="/home/rfran/dev/orb_slam3_map"/>
+ </node>
+
+
+ <!-- ═══════════════════════════════════════════════════
+      3. POINTCLOUD → LASERSCAN
+ ════════════════════════════════════════════════════ -->
+ <node pkg="pointcloud_to_laserscan"
+       type="pointcloud_to_laserscan_node"
+       name="pointcloud_to_laserscan">
+
+
+   <remap from="cloud_in" to="/orb_slam3/all_points"/>
+   <remap from="scan"     to="/scan"/>
+
+
+   <rosparam>
+     target_frame:      camera_link
+     transform_tolerance: 0.05
+     min_height: -0.3
+     max_height:  0.3
+     angle_min:       -3.1415
+     angle_max:        3.1415
+     angle_increment:  0.0087
+     scan_time:  0.0333
+     range_min:  0.1
+     range_max:  8.0
+     use_inf:    false
+     concurrency_level: 1
+   </rosparam>
+ </node>
+
+<!-- 
+ <node pkg="tf" type="static_transform_publisher"
+       name="map_to_world"
+       args="0 0 0 0 0 0 map world 100"/> -->
+
+
+ <!-- ═══════════════════════════════════════════════════
+      4. GMAPPING  →  /map  (UPDATED)
+ ════════════════════════════════════════════════════ -->
+ <node pkg="gmapping" type="slam_gmapping"
+       name="slam_gmapping" output="screen">
+
+
+   <param name="map_frame"          value="map"/>
+   <param name="odom_frame"         value="world"/>
+   <param name="base_frame"         value="camera_link"/>
+
+
+   <param name="map_update_interval" value="1.0"/>
+   <param name="transform_tolerance" value="0.5"/>
+
+
+   <!-- UPDATED motion thresholds -->
+   <param name="linearUpdate"        value="0.1"/>
+   <param name="angularUpdate"       value="0.1"/>
+   <param name="temporalUpdate"      value="1.0"/>
+
+
+   <!-- UPDATED sensor model -->
+   <param name="maxUrange"           value="6.0"/>
+   <param name="maxRange"            value="8.0"/>
+   <param name="sigma"               value="0.05"/>
+   <param name="kernelSize"          value="1"/>
+   <param name="lstep"               value="0.05"/>
+   <param name="astep"               value="0.05"/>
+   <param name="iterations"          value="10"/>   <!-- UPDATED -->
+   <param name="lsigma"              value="0.05"/> <!-- UPDATED -->
+   <param name="ogain"               value="3.0"/>
+   <param name="lskip"               value="0"/>
+   <param name="minimumScore"        value="100"/>  <!-- UPDATED -->
+
+
+   <!-- Odometry noise -->
+   <param name="srr"                 value="0.05"/>
+   <param name="srt"                 value="0.05"/>
+   <param name="str"                 value="0.05"/>
+   <param name="stt"                 value="0.05"/>
+
+
+   <!-- UPDATED particle filter -->
+   <param name="particles"           value="80"/>
+   <param name="resampleThreshold"   value="0.5"/>
+
+
+   <param name="xmin"   value="-15.0"/>
+   <param name="ymin"   value="-15.0"/>
+   <param name="xmax"   value="15.0"/>
+   <param name="ymax"   value="15.0"/>
+   <param name="delta"  value="0.05"/>
+
+
+   <remap from="scan" to="/scan"/>
+ </node>
+
+
+ <!-- ═══════════════════════════════════════════════════
+      5. MAP SAVER
+ ════════════════════════════════════════════════════ -->
+ <!-- <node pkg="map_server" type="map_saver"
+       name="map_saver"
+       args="-f /home/rfran/dev/saved_map"
+       respawn="false"/> -->
+
+
+ <!-- <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen"> -->
+   <!-- <rosparam file="/home/rfran/dev/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> -->
+   <!-- <rosparam file="/home/rfran/dev/config/costmap_common_params.yaml" command="load" ns="local_costmap" /> -->
+   <!-- <rosparam file="/home/rfran/dev/config/local_costmap_params.yaml" command="load" /> -->
+   <!-- <rosparam file="/home/rfran/dev/config/global_costmap_params.yaml" command="load" /> -->
+   <!-- <rosparam file="/home/rfran/dev/config/planners.yaml" command="load" /> -->
+ <!-- </node> -->
+
+
+ <!-- ═══════════════════════════════════════════════════
+      6. RVIZ
+ ════════════════════════════════════════════════════ -->
+ <node name="rviz" pkg="rviz" type="rviz"
+       args="-d /home/rfran/dev/ORB_SLAM3/Examples/ROS/ORB_SLAM3/orb_grid_setup.rviz"/>
+
+
+</launch>
+
+
+
+
+

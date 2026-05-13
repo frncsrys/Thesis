@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       orbgrid_nav.launch  —  Waze-style RViz navigation (no motors)
+       Nodes  : pose_simulator  |  astar_planner  |  pure_pursuit  |  waypoint_manager
+       
+       How it works like Waze
+       ──────────────────────
+       1. Open RViz and load the config below.
+       2. Use the "2D Pose Estimate" button to place the car on the map.
+       3. Use the "2D Nav Goal" button (mapped to /goal_pose) to set a destination.
+          OR set waypoints in the launch args for automatic multi-stop navigation.
+       4. A* plans the route (blue line on map).  Pure Pursuit drives the sim car
+          along it.  pose_simulator moves the car arrow in RViz in real time.
+       ═══════════════════════════════════════════════════════════════════ -->
+
+  <!-- ── Shared frame args ──────────────────────────────────────────────────── -->
+  <arg name="parent_frame"   default="world"       doc="Map frame"/>
+  <arg name="base_frame"     default="camera_link" doc="Robot frame"/>
+
+  <!-- ── Map ───────────────────────────────────────────────────────────────── -->
+  <arg name="map_yaml"       default="/home/rfran/dev/maps/clean/saved_map_clean.yaml"/>
+  <arg name="map_pgm"        default="/home/rfran/dev/maps/clean/saved_map_clean.pgm"/>
+
+  <!-- ── Starting pose of the simulated car ────────────────────────────────── -->
+  <arg name="start_x"        default="-0.280"/>
+  <arg name="start_y"        default="1.455"/>
+  <arg name="start_yaw"      default="0.0"  doc="Radians"/>
+
+  <!-- ── Waypoints (leave empty to use RViz 2D Nav Goal manually) ──────────── -->
+  <arg name="waypoints"      default="[]"   doc="Flat list [x0,y0, x1,y1, ...]"/>
+  <arg name="waypoints_file" default=""     doc="Path to a YAML waypoints file"/>
+  <arg name="loop_waypoints" default="false"/>
+
+  <!-- ── Speeds ─────────────────────────────────────────────────────────────── -->
+  <arg name="v_max"          default="0.25" doc="Max linear speed m/s"/>
+  <arg name="lookahead"      default="0.60" doc="Pure Pursuit lookahead distance m"/>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       1. POSE SIMULATOR
+       Integrates /cmd_vel → simulated (x,y,yaw).
+       Broadcasts TF world→camera_link and publishes /orb_slam3/pose.
+       ════════════════════════════════════════════════════════════════════ -->
+  <node name="pose_simulator"
+        pkg="simple_nav"
+        type="pose_simulator.py"
+        output="screen"
+        respawn="true">
+
+    <param name="parent_frame"  value="$(arg parent_frame)"/>
+    <param name="base_frame"    value="$(arg base_frame)"/>
+    <param name="cmd_vel_topic" value="/cmd_vel"/>
+    <param name="odom_topic"    value="/orb_slam3/pose"/>
+    <param name="pose_topic"    value="/sim/pose"/>
+    <param name="update_rate"   value="50.0"/>   <!-- Hz -->
+
+    <!-- Starting position on the map -->
+    <param name="start_x"       value="$(arg start_x)"/>
+    <param name="start_y"       value="$(arg start_y)"/>
+    <param name="start_yaw"     value="$(arg start_yaw)"/>
+  </node>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       2. A* GLOBAL PLANNER
+       Reads PGM/YAML map → listens for /goal_pose → publishes /global_path
+       ════════════════════════════════════════════════════════════════════ -->
+  <node name="astar_planner"
+        pkg="simple_nav"
+        type="astar_planner.py"
+        output="screen"
+        respawn="true">
+     <param name="parent_frame" value="world"/>
+     
+    <param name="map_yaml_path"             value="$(arg map_yaml)"/>
+    <param name="map_pgm_path"              value="$(arg map_pgm)"/>
+    <param name="publish_map_topic"         value="/map"/>
+
+    <param name="parent_frame"              value="$(arg parent_frame)"/>
+    <param name="base_frame"               value="$(arg base_frame)"/>
+
+    <param name="goal_topic"                value="/goal_pose"/>
+    <param name="path_topic"               value="/global_path"/>
+
+    <param name="occupied_thresh"           value="65"/>
+    <param name="treat_unknown_as_occupied" value="true"/>
+
+    <!-- Inflate obstacles so the car body fits through gaps -->
+    <param name="robot_radius"              value="0.10"/>
+    <param name="inflation_extra"           value="0.00"/>
+    <param name="allow_diagonal"            value="true"/>
+  </node>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       3. PURE PURSUIT  (path follower)
+       Tracks /global_path → publishes /cmd_vel  (direct — no obstacle gate)
+       ════════════════════════════════════════════════════════════════════ -->
+  <node name="pure_pursuit"
+        pkg="simple_nav"
+        type="pure_pursuit.py"
+        output="screen"
+        respawn="true">
+
+    <param name="parent_frame"   value="$(arg parent_frame)"/>
+    <param name="base_frame"     value="$(arg base_frame)"/>
+
+    <param name="path_topic"     value="/global_path"/>
+    <!-- Direct to /cmd_vel — pose_simulator reads this to move the car -->
+    <param name="cmd_vel_topic"  value="/cmd_vel"/>
+
+    <param name="lookahead"      value="$(arg lookahead)"/>
+    <param name="v_max"          value="$(arg v_max)"/>
+    <param name="v_min"          value="0.05"/>
+    <param name="w_max"          value="1.20"/>
+    <param name="goal_tolerance" value="0.20"/>
+    <param name="wheelbase"      value="0.26"/>
+
+    <!-- Debug markers visible in RViz (lookahead point, HUD, line to target) -->
+    <param name="publish_debug"  value="true"/>
+    <param name="debug_ns"       value="pp"/>
+  </node>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       4. WAYPOINT MANAGER  (optional — skip if using RViz 2D Nav Goal only)
+       Drives the car through an ordered list of goals automatically.
+       Leave waypoints=[] to control manually via RViz.
+       ════════════════════════════════════════════════════════════════════ -->
+  <node name="waypoint_manager"
+        pkg="simple_nav"
+        type="waypoint_manager.py"
+        output="screen"
+        respawn="true">
+
+    <param name="parent_frame"   value="$(arg parent_frame)"/>
+    <param name="base_frame"     value="$(arg base_frame)"/>
+
+    <param name="goal_topic"     value="/goal_pose"/>
+    <param name="odom_topic"     value="/orb_slam3/pose"/>
+
+    <param name="waypoints_file" value="$(arg waypoints_file)"/>
+    <rosparam param="waypoints"  subst_value="True">$(arg waypoints)</rosparam>
+
+    <param name="use_move_base"  value="false"/>
+    <param name="goal_tolerance" value="0.30"/>
+    <param name="loop_waypoints" value="$(arg loop_waypoints)"/>
+  </node>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       5. STATIC TRANSFORM  (optional — keeps TF tree complete for RViz)
+       Publishes a fixed identity transform for any frames RViz complains about.
+       Remove if ORB-SLAM3 is still running alongside.
+       ════════════════════════════════════════════════════════════════════ -->
+     <!-- <node name="map_to_odom_tf"
+          pkg="tf"
+          type="static_transform_publisher"
+          args="0 0 0 0 0 0 map world 100"/> -->
+
+</launch>

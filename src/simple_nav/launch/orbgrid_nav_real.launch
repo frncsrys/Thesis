@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <arg name="parent_frame"   default="world"       doc="Map frame"/>
+  <arg name="base_frame"     default="camera_link" doc="Robot frame"/>
+
+  <arg name="map_yaml"       default="/home/rfran/dev/maps/clean/saved_map_clean.yaml"/>
+  <arg name="map_pgm"        default="/home/rfran/dev/maps/clean/saved_map_clean.pgm"/>
+
+  <arg name="waypoints"      default="[]"   doc="Flat list [x0,y0, x1,y1, ...]"/>
+  <arg name="waypoints_file" default=""     doc="Path to a YAML waypoints file"/>
+  <arg name="loop_waypoints" default="false"/>
+
+  <arg name="v_max"          default="0.25" doc="Max linear speed m/s"/>
+  <arg name="lookahead"      default="0.60" doc="Pure Pursuit lookahead distance m"/>
+
+  <arg name="enable_perception"  default="true"/>
+  <arg name="publish_debug_img"  default="false"/>
+
+  <arg name="enable_camera"  default="true"/>
+
+  <include file="$(find video_stream_opencv)/launch/camera.launch"
+           if="$(arg enable_camera)">
+    <arg name="camera_name"          value="phone_cam"/>
+    <arg name="video_stream_provider" value="http://100.109.163.97:8080/video?type=.mjpg"/>
+    <arg name="fps"                  value="30"/>
+    <arg name="width"                value="640"/>
+    <arg name="height"               value="480"/>
+  </include>
+
+  <node name="astar_planner"
+        pkg="simple_nav"
+        type="astar_planner.py"
+        output="screen"
+        respawn="true">
+
+    <param name="parent_frame"              value="world"/>
+    <param name="map_yaml_path"             value="$(arg map_yaml)"/>
+    <param name="map_pgm_path"              value="$(arg map_pgm)"/>
+    <param name="publish_map_topic"         value="/map"/>
+    <param name="base_frame"                value="$(arg base_frame)"/>
+    <param name="goal_topic"                value="/goal_pose"/>
+    <param name="path_topic"                value="/global_path"/>
+    <param name="occupied_thresh"           value="65"/>
+    <param name="treat_unknown_as_occupied" value="true"/>
+    <param name="robot_radius"              value="0.10"/>
+    <param name="inflation_extra"           value="0.00"/>
+    <param name="allow_diagonal"            value="true"/>
+  </node>
+
+  <node name="pure_pursuit"
+        pkg="simple_nav"
+        type="pure_pursuit.py"
+        output="screen"
+        respawn="true">
+
+    <param name="parent_frame"   value="$(arg parent_frame)"/>
+    <param name="base_frame"     value="$(arg base_frame)"/>
+    <param name="path_topic"     value="/global_path"/>
+    <param name="cmd_vel_topic"  value="/cmd_vel_raw"/>
+    <param name="lookahead"      value="$(arg lookahead)"/>
+    <param name="v_max"          value="$(arg v_max)"/>
+    <param name="v_min"          value="0.05"/>
+    <param name="w_max"          value="1.20"/>
+    <param name="goal_tolerance" value="0.20"/>
+    <param name="wheelbase"      value="0.26"/>
+    <param name="publish_debug"  value="true"/>
+    <param name="debug_ns"       value="pp"/>
+  </node>
+
+  <node name="obstacle_stop"
+        pkg="simple_nav"
+        type="obstacle_stop.py"
+        output="screen"
+        respawn="true">
+
+    <param name="parent_frame"        value="$(arg parent_frame)"/>
+    <param name="base_frame"          value="$(arg base_frame)"/>
+    <param name="cmd_vel_in_topic"    value="/cmd_vel_raw"/>
+    <param name="cmd_vel_out_topic"   value="/cmd_vel"/>
+    <param name="cloud_topic"         value="/orb_slam3/all_points"/>
+    <param name="perception_topic"    value="/perception/nav_command"/>
+    <param name="stop_distance"       value="0.60"/>
+    <param name="lateral_half_width"  value="0.30"/>
+    <param name="height_band"         value="0.50"/>
+    <param name="min_points_to_stop"  value="3"/>
+    <param name="clear_count_thresh"  value="5"/>
+    <param name="slow_speed_fraction" value="0.35"/>
+    <param name="perception_timeout"  value="1.0"/>
+  </node>
+
+  <node name="waypoint_manager"
+        pkg="simple_nav"
+        type="waypoint_manager.py"
+        output="screen"
+        respawn="true">
+
+    <param name="parent_frame"   value="$(arg parent_frame)"/>
+    <param name="base_frame"     value="$(arg base_frame)"/>
+    <param name="goal_topic"     value="/goal_pose"/>
+    <param name="odom_topic"     value="/orb_slam3/pose"/>
+    <param name="waypoints_file" value="$(arg waypoints_file)"/>
+    <rosparam param="waypoints"  subst_value="True">$(arg waypoints)</rosparam>
+    <param name="use_move_base"  value="false"/>
+    <param name="goal_tolerance" value="0.30"/>
+    <param name="loop_waypoints" value="$(arg loop_waypoints)"/>
+  </node>
+
+  <node name="perception_node"
+        pkg="simple_nav"
+        type="perception_node.py"
+        output="screen"
+        respawn="true"
+        if="$(arg enable_perception)">
+
+    <param name="image_topic"       value="/phone_cam/image_raw"/>
+    <param name="model_path"        value="/home/rfran/slam_ws/src/detection/AV-Robots-Distance_Detection-Mandap/best_ncnn_model"/>
+    <param name="calib_path"        value="/home/rfran/slam_ws/src/detection/AV-Robots-Distance_Detection-Mandap/calibration_params.npz"/>
+    <param name="camera_height_m"   value="0.23"/>
+    <param name="camera_tilt_deg"   value="12.0"/>
+    <param name="target_width"      value="640"/>
+    <param name="target_height"     value="360"/>
+    <param name="skip_frames"       value="1"/>
+    <param name="publish_debug_img" value="$(arg publish_debug_img)"/>
+  </node>
+
+</launch>

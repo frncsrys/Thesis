@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="enable_mapping" default="true"/>
+    <arg name="enable_nav"     default="false"/>
+    <arg name="enable_sim"     default="false"/>
+
+    <arg name="enable_camera"     default="true"/>
+    <arg name="enable_rviz"       default="true"/>
+    
+    <arg name="parent_frame"      default="world"/>
+    <arg name="base_frame"        default="camera_link"/>
+
+    <arg name="map_yaml"       default="/home/rfran/dev/maps/MAP-APR-18-133311.yaml"/>
+    <arg name="map_pgm"        default="/home/rfran/dev/maps/MAP-APR-18-133311.pgm"/>
+    
+    <arg name="v_max"          default="0.25"/>
+    <arg name="lookahead"      default="0.15"/> 
+
+    <group if="$(arg enable_sim)">
+        <node name="pose_simulator" pkg="simple_nav" type="pose_simulator.py" output="screen">
+            <param name="parent_frame"  value="$(arg parent_frame)"/>
+            <param name="base_frame"    value="$(arg base_frame)"/>
+            <param name="cmd_vel_topic" value="/cmd_vel_raw"/> 
+            <param name="odom_topic"    value="/orb_slam3/pose"/>
+            <param name="update_rate"   value="50.0"/>
+            <param name="v_max"         value="$(arg v_max)"/>
+            <param name="w_max"         value="5.0"/>
+        </node>
+
+        <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" 
+              args="0 0 0 0 0 0 map world" />
+    </group>
+
+    <node name="orb_slam3_mono" 
+          if="$(eval not arg('enable_sim') and (arg('enable_mapping') or arg('enable_nav')))" 
+          pkg="ORB_SLAM3" type="Mono"
+          args="/home/rfran/dev/ORB_SLAM3/Vocabulary/ORBvoc.txt
+                $(eval '/home/rfran/dev/ORB_SLAM3/Examples/Monocular/' + ('TUM1_mapping.yaml' if arg('enable_mapping') else 'TUM1_nav.yaml'))"
+          output="screen">
+        <param name="parent_frame" value="$(arg parent_frame)"/>
+        <param name="child_frame"  value="$(arg base_frame)"/>
+        <remap from="/camera/image_raw" to="/phone_cam/image_raw"/>
+    </node>
+
+    <group if="$(eval arg('enable_nav') or arg('enable_sim'))">
+
+        <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_yaml)" output="screen">
+            <param name="frame_id" value="map"/>
+        </node>
+
+        <node name="astar_planner" pkg="simple_nav" type="astar_planner.py" output="screen">
+            <param name="parent_frame"       value="world"/>
+            <param name="map_yaml_path"      value="$(arg map_yaml)"/>
+            <param name="map_pgm_path"       value="$(arg map_pgm)"/>
+            <param name="publish_map_topic"  value="/map"/> 
+            <param name="base_frame"         value="$(arg base_frame)"/>
+            <param name="path_topic"         value="/global_path"/>
+            <param name="robot_radius"       value="0.02"/>
+        </node>
+
+        <node name="pure_pursuit" pkg="simple_nav" type="pure_pursuit.py" output="screen">
+            <param name="parent_frame"   value="$(arg parent_frame)"/>
+            <param name="base_frame"     value="$(arg base_frame)"/>
+            <param name="path_topic"     value="/global_path"/>
+            <param name="cmd_vel_topic"  value="/cmd_vel_raw"/>
+            <param name="lookahead"      value="$(arg lookahead)"/>
+            <param name="v_max"          value="$(arg v_max)"/>
+            <param name="goal_tolerance" value="0.15"/>
+            
+            <param name="w_max"          value="5.0"/> 
+            <param name="wheelbase"      value="0.26"/>
+        </node>
+
+        <node name="obstacle_stop" pkg="simple_nav" type="obstacle_stop.py" output="screen"
+              unless="$(arg enable_sim)">
+            <param name="cmd_vel_in_topic"    value="/cmd_vel_raw"/>
+            <param name="cmd_vel_out_topic"   value="/cmd_vel"/>
+            <param name="stop_distance"       value="0.60"/>
+        </node>
+
+        <node name="waypoint_manager" pkg="simple_nav" type="waypoint_manager.py" output="screen">
+            <param name="odom_topic"     value="/orb_slam3/pose"/>
+        </node>
+
+    </group>
+
+    <node name="rviz" pkg="rviz" type="rviz" 
+          args="-d /home/rfran/dev/ORB_SLAM3/Examples/ROS/ORB_SLAM3/orb_grid_setup.rviz"
+          if="$(arg enable_rviz)"/>
+
+</launch>

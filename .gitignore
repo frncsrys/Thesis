@@ -60,5 +60,3 @@ test_results/
 .DS_Store
 Thumbs.db
 EOF
-src/ORB_SLAM3
-src/simple_nav

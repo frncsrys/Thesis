@@ -1,0 +1,133 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /2D_Map1
+        - /ORB_Points1
+        - /2D_Scan1
+      Splitter Ratio: 0.5
+    Tree Height: 549
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz/Map
+      Alpha: 0.7
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: 2D_Map
+      Topic: /map
+      Unreliable: false
+      Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Marker Scale: 0.5
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+    - Class: rviz/Path
+      Alpha: 1
+      Color: 0; 255; 0  # Green for the A* path
+      Enabled: true
+      Name: Planned_AStar_Path
+      Topic: /global_path
+      Value: true
+    - Class: rviz/PointCloud2
+      Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Color: 255; 255; 255
+      Color Transformer: AxisColor
+      Enabled: true
+      Name: ORB_Points
+      Selectable: true
+      Size (Pixels): 3
+      Style: Points
+      Topic: /orb_slam3/all_points
+      Value: true
+    - Class: rviz/LaserScan
+      Alpha: 1
+      Autocompute Intensity Bounds: true
+      Color: 0; 255; 0
+      Color Transformer: FlatColor
+      Enabled: true
+      Name: 2D_Scan
+      Size (m): 0.05
+      Style: Flat Squares
+      Topic: /scan
+      Value: true
+    - Class: rviz/Path
+      Alpha: 1
+      Color: 255; 0; 0
+      Enabled: true
+      Name: Camera_Trajectory
+      Topic: /orb_slam3/path
+      Value: true
+    - Class: rviz/Path
+      Alpha: 1
+      Color: 0; 255; 255
+      Enabled: true
+      Name: Waze_Global_Route
+      Topic: /move_base/GlobalPlanner/plan
+      Value: true
+    - Class: rviz/Path
+      Alpha: 1
+      Color: 255; 255; 0
+      Enabled: true
+      Name: Local_Steering
+      Topic: /move_base/TebLocalPlannerROS/local_plan
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/Measure
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+  Transformation Policy: ""
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 10
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Name: Current View
+      Pitch: 0.785
+      Yaw: 0.785
