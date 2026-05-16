@@ -21,10 +21,9 @@ Modern robot navigation systems often rely on expensive sensors such as LiDAR or
 
 The localization and navigation pipeline operates by:
 1. **Detecting visual features** in the camera feed using ORB-SLAM3
-2. **Building a 3D map** of the environment in real-time
-3. **Creating 2D occupancy grids** for path planning
-4. **Planning collision-free paths** using A* algorithm
-5. **Tracking paths smoothly** using Pure Pursuit control
+2. **Building and Creating 2D occupancy grids map** of environment in real-time for path planning
+3. **Planning collision-free paths** using A* algorithm
+4. **Tracking paths smoothly** using Pure Pursuit control
 
 The result is a complete autonomous navigation system running on a Raspberry Pi 5 that rivals expensive robotic platforms while maintaining a fraction of the cost.
 
