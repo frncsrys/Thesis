@@ -164,7 +164,7 @@ Vehicle
 |-----------|----------|
 | **ORB-SLAM3** | Real-time visual SLAM; detects features and builds 3D map |
 | **Occupancy Grid** | Converts 3D map to 2D navigation grid |
-| **A* Planner** | Computes collision-free paths to goal |
+| **A-Star Planner** | Computes collision-free paths to goal |
 | **Pure Pursuit** | Smoothly tracks planned path with steering control |
 
 ---
