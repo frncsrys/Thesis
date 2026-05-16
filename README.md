@@ -151,7 +151,7 @@ IP Camera Input
     ↓
 ORB-SLAM3 (Localization & Mapping)
     ↓
-Occupancy Grid Generator
+2D Occupancy Grid 
     ↓
 A* Path Planner
     ↓
