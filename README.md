@@ -112,7 +112,7 @@ echo "source ~/slam_ws/devel/setup.bash" >> ~/.bashrc
  
 ## Step 6: Run System
  
-**Option 1: Automated**
+**Option 1: GUI**
 ```bash
 cd ~/slam_ws
 ./control.sh
