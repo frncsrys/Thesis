@@ -226,7 +226,7 @@ Vehicle
 
 ## License
 
-This project is released under the GPLv3 License and is intended for academic and research purposes.
+This project is intended for academic and research purposes.
 
 ---
 
