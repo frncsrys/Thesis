@@ -4,7 +4,7 @@ A low-cost indoor robot localization, mapping, and navigation system using a mon
 
 This project implements a complete autonomous navigation pipeline using a single camera, demonstrating that monocular vision can serve as a practical and cost-effective alternative to LiDAR for indoor robot navigation in structured environments. The system performs real-time localization and mapping, builds occupancy grids, plans collision-free paths, and tracks them smoothly to guide the robot to its destination.
 
-The navigation pipeline detects the robot's position using visual features, estimates surroundings through 3D reconstruction, converts spatial data into actionable maps, and outputs motion commands:
+The navigation pipeline detects the robot's position using visual features, creates a 3D environment map, converts the 3D map into a 2D occupancy grid map for path planning, and outputs motion commands: 
 
 * **Navigate** – Execute planned path
 * **Explore** – Map unknown areas
