@@ -129,13 +129,9 @@ roslaunch ORB_SLAM3 mono.launch
  
 # Terminal 3
 source ~/slam_ws/devel/setup.bash
-rosrun simple_nav occupancy_grid_generator.py
- 
-# Terminal 4
-source ~/slam_ws/devel/setup.bash
 roslaunch simple_nav navigation.launch
  
-# Terminal 5
+# Terminal 4
 source ~/slam_ws/devel/setup.bash
 rviz -d ~/slam_ws/src/simple_nav/config/rviz_config.rviz
 ```
