@@ -188,9 +188,8 @@ Vehicle
 ## Key Features
 
 - ✅ Monocular SLAM using ORB-SLAM3
-- ✅ IP Camera intergration
-- ✅ Real-time 3D environment mapping
-- ✅ 2D Occupancy Grid generation
+- ✅ IP Camera integration
+- ✅ Real-time 3D -> 2D environment mapping
 - ✅ A* Global Path Planning
 - ✅ Pure Pursuit Path Tracking
 - ✅ Embedded Raspberry Pi 5 deployment
